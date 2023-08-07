@@ -81,7 +81,7 @@ function OrderForm(props) {
 
       <p>Order: {ingredients.join(", ") || "Nothing selected"}</p>
 
-      <button disabled={disabled} onClick={handleSubmit}>Submit Order</button>
+      <button name={"submit-order"} disabled={disabled} onClick={handleSubmit}>Submit Order</button>
     </form>
   );
 }

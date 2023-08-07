@@ -14,7 +14,7 @@ const Orders = (props) => {
   const orderEls = props.orders.map((order) => {
     return (
       <div key={order.id} className="order">
-        <h3>{order.name}</h3>
+        <h3 className="order-name">{order.name}</h3>
         <ul className="ingredient-list">
           {order.ingredients.map((ingredient, index) => {
             return <li key={index}>{ingredient}</li>;
@@ -28,7 +28,7 @@ const Orders = (props) => {
     <section>{orderEls.length ? orderEls : <p>No orders yet!</p>}
     {props.newOrder && (
       <div key={props.newOrder.id} className="order">
-        <h3>{props.newOrder.name}</h3>
+        <h3 className="order-name">{props.newOrder.name}</h3>
         <ul className="ingredient-list">
           {props.newOrder.ingredients.map((ingredient, index) => {
             return <li key={index}>{ingredient}</li>
