@@ -14,8 +14,8 @@ function OrderForm(props) {
       body: JSON.stringify(newOrder),
     })
     .then((response) => response.json())
-      .then((data) => {
-        props.addOrder(data.order);
+      .then((order) => {
+        props.addOrder(order);
         clearInputs();
       })
       .catch((error) => console.error("Error adding order:", error));
@@ -28,6 +28,7 @@ function OrderForm(props) {
   };
 
   function handleNameChange(e) {
+    e.preventDefault()
     setName(e.target.value)
     setDisabled(e.target.value === "" || ingredients.length === 0)
   }
