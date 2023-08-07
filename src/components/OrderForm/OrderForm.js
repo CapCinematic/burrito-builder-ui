@@ -3,16 +3,40 @@ import { useState } from "react";
 function OrderForm(props) {
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState([]);
+  const [disabled, setDisabled] = useState(true)
 
   function handleSubmit(e) {
     e.preventDefault();
-    clearInputs();
+    const newOrder = {name, ingredients}
+    fetch("http://localhost:3001/api/v1/orders", {
+      method: 'POST',
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(newOrder),
+    })
+    .then((response) => response.json())
+      .then((data) => {
+        props.addOrder(data.order);
+        clearInputs();
+      })
+      .catch((error) => console.error("Error adding order:", error));
   }
 
   function clearInputs() {
     setName("");
     setIngredients([]);
+    setDisabled(true)
   };
+
+  function handleNameChange(e) {
+    setName(e.target.value)
+    setDisabled(e.target.value === "" || ingredients === 0)
+  }
+
+  function handleIngredientClick(e){
+    const ingredient = e.target.name
+    setIngredients([...ingredients, ingredient])
+    setDisabled(e.target.value === "" || ingredients === 0)
+  }
 
   const possibleIngredients = [
     "beans",
@@ -33,7 +57,7 @@ function OrderForm(props) {
       <button
         key={ingredient}
         name={ingredient}
-        onClick={(e) => setName(e.target.value) }
+        onClick={handleIngredientClick}
       >
         {ingredient}
       </button>
@@ -47,14 +71,14 @@ function OrderForm(props) {
         placeholder="Name"
         name="name"
         value={name}
-        onChange={(e) => setIngredients(e.target.value)}
+        onChange={handleNameChange}
       />
 
       {ingredientButtons}
 
       <p>Order: {ingredients.join(", ") || "Nothing selected"}</p>
 
-      <button onClick={(e) => handleSubmit(e)}>Submit Order</button>
+      <button disabled={disabled} onClick={handleSubmit}>Submit Order</button>
     </form>
   );
 }
