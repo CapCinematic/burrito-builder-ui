@@ -29,13 +29,14 @@ function OrderForm(props) {
 
   function handleNameChange(e) {
     setName(e.target.value)
-    setDisabled(e.target.value === "" || ingredients === 0)
+    setDisabled(e.target.value === "" || ingredients.length === 0)
   }
 
   function handleIngredientClick(e){
+    e.preventDefault()
     const ingredient = e.target.name
     setIngredients([...ingredients, ingredient])
-    setDisabled(e.target.value === "" || ingredients === 0)
+    setDisabled(name === "" || ingredients.length === 0)
   }
 
   const possibleIngredients = [
@@ -52,6 +53,7 @@ function OrderForm(props) {
     "cilantro",
     "sour cream",
   ];
+
   const ingredientButtons = possibleIngredients.map((ingredient) => {
     return (
       <button
